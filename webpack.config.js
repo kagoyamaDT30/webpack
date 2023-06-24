@@ -2,6 +2,9 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const ImageminMozjpeg = require('imagemin-mozjpeg');
 
 module.exports = {
     // メインとなるJavaScriptファイル（エントリーポイント）
@@ -54,5 +57,25 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/[name]'
         }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, "./assets/images"),
+                    to: path.resolve(__dirname, "./dist/images"),
+                }
+            ]
+        }),
+        new ImageminPlugin({
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            plugins: [
+                ImageminMozjpeg({
+                    quality: 85,
+                    progressive: true,
+                }),
+            ],
+            pngquant: {
+                quality: '70-85',
+            }
+        })
     ]
 };

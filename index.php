@@ -2,7 +2,7 @@
 
 <main>
 <h1>Index</h1>
-<div>
+<div class="p-top">
     <a href="./hoge.php">hogeへ</a>
 </div>
 </main>
